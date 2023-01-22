@@ -1,6 +1,7 @@
 import requests
 from lib.logger import Logger
 import allure
+from environment import ENV_OBJECT
 
 class MyRequests():
     @staticmethod
