@@ -1,8 +1,10 @@
-import pytest
+import pytest,os
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
 import allure
+
+
 
 @allure.epic("Authorization cases")
 class TestUserAuth(BaseCase):
