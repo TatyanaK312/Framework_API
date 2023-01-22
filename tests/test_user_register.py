@@ -5,6 +5,7 @@ import requests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from datetime import datetime
+from lib.my_requests import MyRequests
 
 class TestUserRegister(BaseCase):
 
@@ -21,7 +22,7 @@ class TestUserRegister(BaseCase):
             'lastName':'Tatyana',
             'email':self.email
         }
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
 
@@ -34,7 +35,7 @@ class TestUserRegister(BaseCase):
             'lastName': 'Tatyana',
             'email': email
         }
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response,400)
         assert response.content.decode("utf-8") == f"Users with email '{email}' already exists", f"Неожиданмый response.content {response.content}"
 
@@ -50,7 +51,7 @@ class TestUserRegister(BaseCase):
             'lastName': 'Tatyana',
             'email': email
         }
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response,400)
         assert response.content.decode("utf-8") == f"Invalid email format", f"Неожидаемый response.content {response.content}"
         print('Задан некорректный email:  ',email)
@@ -79,7 +80,7 @@ class TestParams:
           expected4: email1,
           expected5: '123123'
         }
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 400)
         print(response.text)
 
@@ -97,7 +98,7 @@ class TestParams:
             'lastName': 'Tatyana',
             'email': email1
         }
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 400)
         print(response.text)
 
@@ -115,7 +116,7 @@ class TestParams:
             'lastName': 'Tatyana',
             'email': email1
         }
-        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 400)
         print(response.text)
 
