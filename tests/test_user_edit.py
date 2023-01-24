@@ -3,8 +3,12 @@ import requests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
+import allure
 
 class TestUserEdit(BaseCase):
+    @allure.epic("Положительные тесты")
+    @allure.feature("Редактирование пользователя")
+    @allure.description("Этот тест проверяет вохможность изменения данных пользователя")
     def test_edit_just_created_user(self):
         #REGISTER
         register_data=self.prepare_registration_data()

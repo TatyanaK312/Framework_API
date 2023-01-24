@@ -4,8 +4,14 @@ from lib.base_case import BaseCase
 from lib.assertions import Assertions
 import random
 import string
+import allure
 
 class TestUserEditFAIL(BaseCase):
+    @allure.epic("Негативные тесты")
+    @allure.feature("Редактирование пользователя")
+    @allure.description("Пытаемся изменить данные пользователя")
+
+
     def test_edit_just_created_user_fail(self):
 
 #REGISTER
@@ -20,6 +26,7 @@ class TestUserEditFAIL(BaseCase):
         user_id = self.get_json_value(response1,"id")
 
         #LOGIN
+
         login_data = {
             'email':email,
             'password':password
@@ -28,12 +35,14 @@ class TestUserEditFAIL(BaseCase):
         auth_sid=self.get_cookie(response2,"auth_sid")
         token=self.get_header(response2,"x-csrf-token")
 #______________________№1
+
         #EDIT Попытаемся изменить данные пользователя, будучи неавторизованными
         new_name="Changed Name"
         response3=requests.put(f"https://playground.learnqa.ru/api/user/{user_id}",
                               data={"firstName":new_name})
         print(f"Убеждаемся, что данные пользователя не изменились, будучи неавторизованными,  ",response3.status_code)
         print(response3.text)
+
         Assertions.assert_code_status(response3,400)
 
 #_________________________________________________№2
@@ -78,7 +87,8 @@ class TestUserEditFAIL(BaseCase):
         new_name = random.choice(string.ascii_letters)
         response3 = requests.put(f"https://playground.learnqa.ru/api/user/{user_id}",
                              headers={"x-csrf-token": token},
-                             cookies={"auth_sid": auth_sid},
+                             cookies={"auth_sid":
+                                          auth_sid},
                              data={"firstName": new_name})
         Assertions.assert_code_status(response3, 400)
         print(f"Изменяем firstName пользователя, будучи авторизованными тем же пользователем, на очень короткое значение в один символ ,  ",
