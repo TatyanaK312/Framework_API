@@ -22,6 +22,15 @@ class TestUserDelete(BaseCase):
         print(response2.text, f"Не удалить пользователя")
         Assertions.assert_code_status(response2,400)
 
+
+# #Запросить удаляемого пользователя - ПРОВЕРКА
+        response4 = MyRequests.get(f"/user/2",
+                           headers={"x-csrf-token": token},
+                           cookies={"auth_sid": auth_sid}
+                           )
+
+        print(f"Ответ запроса на регистрацию удаляемого {2} пользователя: ", response4.text)
+
     def test_user_delete_new_user(self):
 # REGISTER
         register_data = self.prepare_registration_data()
@@ -49,13 +58,13 @@ class TestUserDelete(BaseCase):
                                     data=login_data)
 
         Assertions.assert_code_status(response3,200)
-# Убеждаемся, что такого пользователя уже не существует
+# #Запросить удаленного пользователя - ПРОВЕРКА
         response4=MyRequests.get(f"/user/{user_id}",
                                headers={"x-csrf-token": token},
                                cookies={"auth_sid": auth_sid}
                                )
 
-        print(response4.text, f"Такого пользователя с id {user_id} уже нет")
+        print(f"Ответ запроса на регистрацию удаленного {user_id} пользователя: ",response4.text)
         Assertions.assert_code_status(response4,404)
 
     def test_user_delete_user_auth(self):
@@ -82,5 +91,12 @@ class TestUserDelete(BaseCase):
 # DELETE other user
         response3 = MyRequests.delete(f"/user/{user_id}")
 
-        print(f"User {user_id} не удалить  ", response3.text,response3.status_code)
+        #print(f"User {user_id} не удалить  ", response3.text,response3.status_code)
         Assertions.assert_code_status(response3,400)
+# Запросить удаленного пользователя - ПРОВЕРКА
+
+        response4 = MyRequests.get(f"/user/{user_id}",
+                               headers={"x-csrf-token": token1},
+                               cookies={"auth_sid": auth_sid1}
+                               )
+        print(f"Ответ запроса на регистрацию удаленного {user_id} пользователя: ",response4.text)
